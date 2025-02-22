@@ -25,6 +25,7 @@ git clone https://github.com/NotBunBun/AdresPrueba.git
 cd AdresPrueba
 ```
 ### 2. Configurar el Backend
+ cd Backend
  npm install
  
 ## Ejecución
