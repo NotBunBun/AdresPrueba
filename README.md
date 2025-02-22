@@ -3,7 +3,9 @@
 Esta aplicación web permite gestionar adquisiciones de bienes y servicios. Se compone de dos partes:
 
 - **Frontend**: HTML, CSS y JavaScript.
-- **Backend**: API RESTful con Node.js y Express que usa un archivo JSON para almacenar los datos.
+- **Backend**: API RESTful con Node.js y Express que utiliza un archivo JSON para almacenar datos.
+
+Repositorio: [https://github.com/NotBunBun/AdresPrueba](https://github.com/NotBunBun/AdresPrueba)
 
 ---
 
@@ -18,5 +20,20 @@ Esta aplicación web permite gestionar adquisiciones de bienes y servicios. Se c
 
 ### 1. Clonar el repositorio
 
-git clone <URL_DEL_REPOSITORIO>
-cd <NOMBRE_DEL_REPOSITORIO>
+``` bash
+git clone https://github.com/NotBunBun/AdresPrueba.git
+cd AdresPrueba
+```
+### 2. Configurar el Backend
+ npm install
+ 
+## Ejecución
+
+### 1. Iniciar el Backend
+
+```bash
+node server.js
+```
+importante validar que no esté ocupado el puerto 3000
+### 2. Ejecutar el Frontend
+Abre el archivo index.html ubicado en la carpeta frontend en tu navegador o utiliza un servidor local
