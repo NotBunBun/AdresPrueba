@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestión de Adquisiciones - ADRES</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Gestión de Adquisiciones - ADRES</h1>
+    <button id="theme-toggle">Cambiar Tema</button>
+  </header>
+
+  <main>
+    <!-- Botón para abrir el modal de creación -->
+    <section class="actions">
+      <button id="add-btn">Agregar Adquisición</button>
+    </section>
+
+    <!-- Sección de Filtros -->
+    <section class="filter-section">
+      <h2>Filtros</h2>
+      <input type="text" id="filter-text" placeholder="Buscar por Proveedor, Unidad, etc." />
+      <button id="filter-btn">Aplicar Filtro</button>
+    </section>
+
+    <!-- Sección de Listado -->
+    <section class="list-section">
+      <h2>Listado de Adquisiciones</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Presupuesto</th>
+            <th>Unidad</th>
+            <th>Tipo</th>
+            <th>Cantidad</th>
+            <th>Valor Unitario</th>
+            <th>Valor Total</th>
+            <th>Fecha</th>
+            <th>Proveedor</th>
+            <th>Documentación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="acquisitions-table">
+          <!-- Filas generadas dinámicamente -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Modal para Crear/Editar Adquisiciones -->
+  <div class="modal" id="form-modal">
+    <div class="modal-content">
+      <span class="close" id="close-modal">&times;</span>
+      <h2 id="modal-title">Registrar/Modificar Adquisición</h2>
+
+      <form id="acquisition-form">
+        <input type="hidden" id="acquisition-id" />
+
+        <label for="budget">Presupuesto:</label>
+        <input type="text" id="budget" placeholder="$10.000 millones" required />
+
+        <label for="unit">Unidad:</label>
+        <input type="text" id="unit" placeholder="Dirección de Medicamentos..." required />
+
+        <label for="type">Tipo de Bien/Servicio:</label>
+        <input type="text" id="type" placeholder="Medicamentos, Equipos..." required />
+
+        <label for="quantity">Cantidad:</label>
+        <input type="number" id="quantity" min="1" value="1" required />
+
+        <label for="unitValue">Valor Unitario:</label>
+        <input type="number" id="unitValue" min="1" value="1000" required />
+
+        <label for="totalValue">Valor Total:</label>
+        <input type="number" id="totalValue" min="1" value="10000" required />
+
+        <label for="acquisitionDate">Fecha de Adquisición:</label>
+        <input type="date" id="acquisitionDate" required />
+
+        <label for="provider">Proveedor:</label>
+        <input type="text" id="provider" placeholder="Laboratorios Bayer S.A." required />
+
+        <label for="documentation">Documentación:</label>
+        <input type="text" id="documentation" placeholder="Orden de compra No..." />
+
+        <div class="form-actions">
+          <button type="submit" id="save-btn">Guardar</button>
+          <button type="button" id="cancel-btn">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
