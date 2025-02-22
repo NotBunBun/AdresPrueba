@@ -113,12 +113,17 @@ function renderTable(acquisitions) {
       <td>${acq.active ? "Activo" : "Desactivado"}</td>
       <td>
         <button class="edit-btn" data-id="${acq.id}">Editar</button>
-        <button class="deactivate-btn" data-id="${acq.id}">Desactivar</button>
+        ${
+          acq.active
+            ? `<button class="toggle-active-btn" data-id="${acq.id}" data-active="false">Desactivar</button>`
+            : `<button class="toggle-active-btn" data-id="${acq.id}" data-active="true">Reactivar</button>`
+        }
       </td>
     `;
     tableBody.appendChild(row);
   });
 
+  // Editar
   document.querySelectorAll(".edit-btn").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       const id = e.target.getAttribute("data-id");
@@ -128,14 +133,24 @@ function renderTable(acquisitions) {
     });
   });
 
-  document.querySelectorAll(".deactivate-btn").forEach((btn) => {
+  // Toggle (Desactivar / Reactivar)
+  document.querySelectorAll(".toggle-active-btn").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       const id = e.target.getAttribute("data-id");
-      await deactivateAcquisition(id);
-      loadAcquisitions();
+      // El atributo data-active define el nuevo estado que deseamos
+      const newActiveState = e.target.getAttribute("data-active") === "true";
+
+      await fetch(`${API_URL}/adquisiciones/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ active: newActiveState })
+      });
+
+      loadAcquisitions(); // Recargar la tabla
     });
   });
 }
+
 
 async function getAcquisitionById(id) {
   const res = await fetch(`${API_URL}/adquisiciones/${id}`);

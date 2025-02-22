@@ -94,17 +94,17 @@ app.put("/adquisiciones/:id", (req, res) => {
   res.json(acquisitions[index]);
 });
 
-// PATCH - Desactivar una adquisición
+// PATCH - Desactivar o actualizar parcialmente una adquisición
 app.patch("/adquisiciones/:id", (req, res) => {
   const { id } = req.params;
   const acquisitions = readData();
-  const index = acquisitions.findIndex((a) => a.id === parseInt(id));
+  const index = acquisitions.findIndex(a => a.id === parseInt(id));
 
   if (index === -1) {
     return res.status(404).json({ message: "Adquisición no encontrada" });
   }
 
-  // Solo actualiza las propiedades enviadas
+  // Actualiza solamente las propiedades enviadas
   for (const prop in req.body) {
     acquisitions[index][prop] = req.body[prop];
   }
