@@ -2,32 +2,113 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gestión de Adquisiciones - ADRES</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión de Adquisiciones</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-pb7zWFTN5ZtEJ4kNfvBWVxZ2cnn1tYPQ1fT9i2/czjYrbGf/r8Zc8d1Cj0ZlPRJ/nqX1JuUYioReRrjFh6zV7Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-  <header>
-    <h1>Gestión de Adquisiciones - ADRES</h1>
-    <button id="theme-toggle">Cambiar Tema</button>
+  <header class="header">
+    <h1 class="header__title">Gestión de Adquisiciones </h1>
+    <div class="header__controls">
+      <div class="search-add">
+        <i class="fas fa-search"></i>
+        <input type="search" id="filterInput" placeholder="Buscar adquisiciones..." />
+        <button id="newAcquisitionBtn" class="btn btn--primary">
+          <i class="fas fa-plus"></i> Nueva
+        </button>
+      </div>
+      <button id="toggleTheme" class="btn btn--secondary">
+        <i class="fas fa-adjust"></i> Tema
+      </button>
+    </div>
   </header>
 
   <main>
-    <!-- Botón para abrir el modal de creación -->
-    <section class="actions">
-      <button id="add-btn">Agregar Adquisición</button>
-    </section>
+    <!-- Modal de registro mejorado -->
+    <div id="acquisitionModal" class="modal">
+      <div class="modal-content">
+        <span class="close" role="button" aria-label="Cerrar formulario">×</span>
+        <h2>Registrar Adquisición</h2>
+        <form id="acquisitionForm" novalidate>
+          <!-- Fila 1: Fecha y Presupuesto -->
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="date">Fecha<span aria-hidden="true">*</span></label>
+              <input type="date" id="date" name="date" required />
+              <small class="error" aria-live="polite"></small>
+            </div>
+            <div class="form-group">
+              <label for="budget">Presupuesto<span aria-hidden="true">*</span></label>
+              <input type="text" id="budget" name="budget" placeholder="Ej. $2.500.000" required />
+              <small class="error" aria-live="polite"></small>
+            </div>
+          </div>
+          <!-- Fila 2: Unidad y Tipo -->
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="unit">Unidad<span aria-hidden="true">*</span></label>
+              <input type="text" id="unit" name="unit" placeholder="Ej. Área de Compras" required />
+              <small class="error" aria-live="polite"></small>
+            </div>
+            <div class="form-group">
+              <label for="type">Tipo<span aria-hidden="true">*</span></label>
+              <input type="text" id="type" name="type" placeholder="Ej. Equipos" required />
+              <small class="error" aria-live="polite"></small>
+            </div>
+          </div>
+          <!-- Fila 3: Cantidad, Valor Unitario y Total -->
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="quantity">Cantidad<span aria-hidden="true">*</span></label>
+              <input type="number" id="quantity" name="quantity" min="1" step="1" required />
+              <small class="error" aria-live="polite"></small>
+            </div>
+            <div class="form-group">
+              <label for="unitValue">Valor Unitario<span aria-hidden="true">*</span></label>
+              <input type="number" id="unitValue" name="unitValue" min="0" step="0.01" required />
+              <small class="error" aria-live="polite"></small>
+            </div>
+            <div class="form-group">
+              <label for="totalValue">Valor Total</label>
+              <input type="number" id="totalValue" name="totalValue" readonly />
+            </div>
+          </div>
+          <!-- Fila 4: Proveedor, Documentación y Estado -->
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="provider">Proveedor<span aria-hidden="true">*</span></label>
+              <input type="text" id="provider" name="provider" placeholder="Ej. Siemens S.A." required />
+              <small class="error" aria-live="polite"></small>
+            </div>
+            <div class="form-group">
+              <label for="documentation">Documentación<span aria-hidden="true">*</span></label>
+              <textarea id="documentation" name="documentation" rows="2" placeholder="Ej. Orden #123, factura #A100" required></textarea>
+              <small class="error" aria-live="polite"></small>
+            </div>
+            <div class="form-group">
+              <label for="status">Estado<span aria-hidden="true">*</span></label>
+              <select id="status" name="status" required>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+              <small class="error" aria-live="polite"></small>
+            </div>
+          </div>
+          <!-- Acciones -->
+          <div class="form-actions">
+            <button type="submit" class="btn btn--primary">Guardar</button>
+            <button type="button" class="btn btn--secondary close-btn">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
-    <!-- Sección de Filtros -->
-    <section class="filter-section">
-      <h2>Filtros</h2>
-      <input type="text" id="filter-text" placeholder="Buscar por Proveedor, Unidad, etc." />
-      <button id="filter-btn">Aplicar Filtro</button>
-    </section>
-
-    <!-- Sección de Listado -->
-    <section class="list-section">
-      <h2>Listado de Adquisiciones</h2>
+    <!-- Tabla responsiva con todos los campos -->
+    <div class="table-container">
       <table>
         <thead>
           <tr>
@@ -45,56 +126,10 @@
             <th>Acciones</th>
           </tr>
         </thead>
-        <tbody id="acquisitions-table">
-          <!-- Filas generadas dinámicamente -->
-        </tbody>
+        <tbody id="acquisitionsList"></tbody>
       </table>
-    </section>
-  </main>
-
-  <!-- Modal para Crear/Editar Adquisiciones -->
-  <div class="modal" id="form-modal">
-    <div class="modal-content">
-      <span class="close" id="close-modal">&times;</span>
-      <h2 id="modal-title">Registrar/Modificar Adquisición</h2>
-
-      <form id="acquisition-form">
-        <input type="hidden" id="acquisition-id" />
-
-        <label for="budget">Presupuesto:</label>
-        <input type="text" id="budget" placeholder="$10.000 millones" required />
-
-        <label for="unit">Unidad:</label>
-        <input type="text" id="unit" placeholder="Dirección de Medicamentos..." required />
-
-        <label for="type">Tipo de Bien/Servicio:</label>
-        <input type="text" id="type" placeholder="Medicamentos, Equipos..." required />
-
-        <label for="quantity">Cantidad:</label>
-        <input type="number" id="quantity" min="1" value="1" required />
-
-        <label for="unitValue">Valor Unitario:</label>
-        <input type="number" id="unitValue" min="1" value="1000" required />
-
-        <label for="totalValue">Valor Total:</label>
-        <input type="number" id="totalValue" min="1" value="10000" required />
-
-        <label for="acquisitionDate">Fecha de Adquisición:</label>
-        <input type="date" id="acquisitionDate" required />
-
-        <label for="provider">Proveedor:</label>
-        <input type="text" id="provider" placeholder="Laboratorios Bayer S.A." required />
-
-        <label for="documentation">Documentación:</label>
-        <input type="text" id="documentation" placeholder="Orden de compra No..." />
-
-        <div class="form-actions">
-          <button type="submit" id="save-btn">Guardar</button>
-          <button type="button" id="cancel-btn">Cancelar</button>
-        </div>
-      </form>
     </div>
-  </div>
+  </main>
 
   <script src="app.js"></script>
 </body>

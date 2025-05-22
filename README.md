@@ -1,4 +1,4 @@
-# Gestión de Adquisiciones - ADRES
+# Gestión de Adquisiciones
 
 Esta aplicación web permite gestionar adquisiciones de bienes y servicios. Se compone de dos partes:
 
